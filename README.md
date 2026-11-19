@@ -15,11 +15,21 @@ Free IELTS practice website: Listening and Reading marked instantly, Writing and
 ## How it is built
 
 ```
-public/index.html   the whole website (HTML, CSS, JS — no build step)
-api/ai.js           serverless route that calls Claude for marking, plan and tutor
-api/_content.js     the Writing/Speaking prompts the examiner marks against
-vercel.json         Vercel settings
+public/index.html          the page shell
+public/app.js              the website's JavaScript (no build step)
+public/styles.css          styles
+public/engine/scale.js     score scales: bands, levels, points, raw->score, aggregation
+public/content/exams/      one folder per exam: scale, sections, rubrics, practice items
+api/ai.js                  serverless route that calls Claude for marking, plan and tutor
+api/_content.js            the Writing/Speaking prompts the examiner marks against
+schema/ + scripts/         exam-pack schema and `npm run validate`
+test/                      `npm test`
+vercel.json                Vercel settings
 ```
+
+Work in progress: BandUp is being extended from IELTS-only to IELTS (Academic and
+General Training), CELPIP, PTE Academic and TOEFL iBT. See `docs/architecture.md`,
+`docs/exam-formats.md` and `docs/roadmap.md`.
 
 The AI prompts live on the server, so visitors can only ask for IELTS marking and tutoring, not use your key for anything else. Each visitor gets `DAILY_LIMIT` AI checks a day.
 

@@ -23,56 +23,63 @@ stops the site becoming a free AI proxy. Everything below preserves it.
 
 ---
 
-## 2. Proposed layout
+## 2. Layout
+
+Two constraints shape where files go: Vercel serves `outputDirectory: public`, and v1
+has **no build step** (a virtue worth keeping). So anything the *browser* must import
+lives under `public/` and is served as a native ES module. Nothing is bundled or copied.
 
 ```
-content/                          ← pure data, no logic. The only thing you add per exam.
-  exams/
-    ielts-academic/
-      exam.json                   ← identity, scale, sections, timing, level map
-      rubrics/writing-task1.json
-      rubrics/writing-task2.json
-      rubrics/speaking.json
-      items/listening/set-01.json
-      items/reading/set-01.json
-      items/writing/task1-01.json
-      items/speaking/set-01.json
-    ielts-general/
-    celpip-general/
-    pte-academic/
-    toefl-ibt/
-  schema/                         ← JSON Schema; CI validates every pack against these
-    exam.schema.json
-    item.schema.json
-    rubric.schema.json
-
-src/engine/                       ← exam-agnostic. Shared by browser and server.
-  registry.js      loads + validates packs, exposes exams by id
-  scale.js         score scales: format, clamp, aggregate, raw→score tables
-  marker.js        objective marking, one policy per item type
-  session.js       test session state machine: parts, timers, one-play audio, drafts
-  levels.js        beginner → professional behaviour (speed, hints, strictness, tone)
-  itemtypes/       one module per item type: { render(), collect(), mark() }
-    gap-fill.js  tfng.js  mcq-single.js  mcq-multi.js  matching.js  map-label.js
-    reorder-paragraph.js  dropdown-fill.js  drag-fill.js  highlight-words.js
-    select-missing-word.js  dictation.js  build-sentence.js  complete-the-words.js
-
-api/
-  ai.js            single route. Body: { examId, mode, itemId, answer, level }
-  _prompt.js       assembles examiner prompt from exam.json + rubric + item + level
-  _packs.js        server-side loader (imports the SAME content/ files)
-  _limit.js        Upstash daily limit (unchanged behaviour)
-
 public/
-  index.html       shell + exam picker
-  app.js           router, views, result rendering driven by rubric metadata
+  index.html     shell + exam picker
+  app.js         router, views, result rendering driven by rubric metadata
   styles.css
+  engine/        ← exam-agnostic. Imported by the browser AND by api/.
+    scale.js       score scales: kinds, rounding, raw->score, aggregation
+    registry.js    loads packs, resolves sharesItemsWith
+    marker.js      objective marking, one policy per item type
+    session.js     test session state machine: parts, timers, one-play audio, drafts
+    levels.js      beginner -> professional behaviour
+    itemtypes/     one module per item type: { render(), collect(), mark() }
+      gap-fill.js  tfng.js  mcq-single.js  mcq-multi.js  matching.js  map-label.js
+      reorder-paragraph.js  dropdown-fill.js  drag-fill.js  highlight-words.js
+      select-missing-word.js  dictation.js  build-sentence.js  complete-the-words.js
+  content/       ← pure data. The only thing you add per exam.
+    exams/<exam-id>/
+      exam.json          identity, scale, sections, timing, levelMap
+      rubrics/*.json     criteria names + how to aggregate  (public half)
+      items/<skill>/*.json
+
+api/                     ← server only. Never shipped to the browser.
+  ai.js                  single route: { examId, mode, itemId, answer, level }
+  _prompt.js             assembles the examiner prompt
+  _personas.js           examiner persona + marking instructions per rubric  (private half)
+  _packs.js              imports the SAME public/content files
+  _limit.js              Upstash daily limit (behaviour unchanged from v1)
+
+schema/                  ← dev only, not served
+  exam.schema.json  item.schema.json  rubric.schema.json
+scripts/validate.mjs     npm run validate
+test/                    npm test
 ```
 
-`content/` is imported by **both** `public/app.js` and `api/_packs.js`.
-One file, one truth. The "keep in sync" comment disappears.
+### What is public and what is not
 
----
+Objective answer keys must reach the browser, because Listening and Reading are marked
+in the browser and stay free and unlimited. That was already true in v1, where the answers
+sat in `index.html`, so this is no regression.
+
+What must **not** reach the browser is the examiner prompt. So `rubric.json` is split:
+
+- **public** — criterion keys, display names and factor lists. The result UI needs these to
+  draw its rows, and they are published information anyway (the IELTS criteria and the
+  CELPIP Performance Standards are on the exam boards' own websites).
+- **private** (`api/_personas.js`) — the examiner persona, the strictness instructions, the
+  output contract and the anti-injection wording.
+
+A visitor can therefore see *that* CELPIP Writing is marked on Readability, and cannot
+extract a prompt that turns the site into a general-purpose AI proxy. That is exactly v1's
+security property, preserved while making the UI data-driven.
 
 ## 3. The three data contracts
 
@@ -231,17 +238,17 @@ replaced loose indices with a stable `itemId`.
 
 ## 6. The test for "adding an exam is just data"
 
-A new exam ships without touching `src/engine/` if and only if:
+A new exam ships without touching `public/engine/` if and only if:
 
 1. its scale is one of `half-step` / `integer` / `points`;
 2. its objective items use registered item types;
 3. its productive-skill marking uses a registered `aggregate`.
 
 If an exam brings a genuinely new interaction (say, drag-and-drop map labelling), the
-work is **one new module in `itemtypes/`** implementing `render/collect/mark` — additive,
+work is **one new module in `public/engine/itemtypes/`** implementing `render/collect/mark` — additive,
 and every other exam is untouched. That is the intended seam, and it is the only one.
 
 Guard rails so this does not rot:
-- `npm run validate` checks every pack against `content/schema/*` and fails CI on drift.
+- `npm run validate` checks every pack against `schema/*` and fails CI on drift.
 - Every item must carry `"provenance": "original"`; validation rejects a pack without it.
-- A `content/exams/_template/` folder is the starting point for the next exam.
+- A `public/content/exams/_template/` folder is the starting point for the next exam.

@@ -1,0 +1,74 @@
+{
+  "id": "ielts-academic",
+  "family": "ielts",
+  "name": "IELTS Academic",
+  "blurb": "For university study in an English-speaking country.",
+  "order": 1,
+  "trademark": "IELTS is a registered trademark of the British Council, IDP and Cambridge University Press & Assessment. BandUp is not affiliated with them.",
+  "verified": "2026-11-19",
+  "sources": [
+    "https://ielts.org/take-a-test/test-types/ielts-academic-test",
+    "https://ielts.com.au/australia/results/band-score-calculation"
+  ],
+  "scale": {
+    "kind": "half-step",
+    "min": 0,
+    "max": 9,
+    "step": 0.5,
+    "label": "Band",
+    "format": "Band {v}",
+    "overall": { "method": "mean-round-half-band" }
+  },
+  "levelMap": {
+    "beginner": [4, 5],
+    "intermediate": [5.5, 6],
+    "advanced": [6.5, 7],
+    "professional": [7.5, 9]
+  },
+  "sections": [
+    {
+      "skill": "listening",
+      "minutes": 30,
+      "questions": 40,
+      "playback": "once",
+      "parts": 4,
+      "note": "Four parts of 10 questions. Parts 1-2 everyday/social, Parts 3-4 educational. Heard once. Paper test adds 10 minutes to transfer answers.",
+      "raw": {
+        "outOf": 40,
+        "tableNote": "Whole-band rows follow the published IELTS anchors (16=5, 23=6, 30=7, 35=8). Half-band rows are interpolated and indicative only.",
+        "table": [[39,9],[37,8.5],[35,8],[32,7.5],[30,7],[26,6.5],[23,6],[18,5.5],[16,5],[13,4.5],[10,4],[8,3.5],[6,3],[4,2.5],[0,2]]
+      }
+    },
+    {
+      "skill": "reading",
+      "minutes": 60,
+      "questions": 40,
+      "note": "Three long passages, 2150-2750 words in total, increasing in difficulty.",
+      "raw": {
+        "outOf": 40,
+        "tableNote": "Whole-band rows follow the published IELTS Academic anchors (15-18=5, 23-26=6, 30-32=7, 35-36=8, 39-40=9). Half-band rows are interpolated and indicative only.",
+        "table": [[39,9],[37,8.5],[35,8],[33,7.5],[30,7],[27,6.5],[23,6],[19,5.5],[15,5],[13,4.5],[10,4],[8,3.5],[6,3],[4,2.5],[0,2]]
+      }
+    },
+    {
+      "skill": "writing",
+      "minutes": 60,
+      "aggregate": "weighted-mean-round-half-band",
+      "aggregateNote": "Task 2 contributes twice as much as Task 1 to the Writing score.",
+      "tasks": [
+        { "id": "task1", "name": "Task 1 · Report", "rubric": "writing-task1", "minWords": 150, "minutes": 20, "weight": 1 },
+        { "id": "task2", "name": "Task 2 · Essay", "rubric": "writing-task2", "minWords": 250, "minutes": 40, "weight": 2 }
+      ]
+    },
+    {
+      "skill": "speaking",
+      "minutes": 14,
+      "rubric": "speaking",
+      "parts": [
+        { "n": 1, "kind": "qa", "name": "Part 1 · Interview", "minutes": 5 },
+        { "n": 2, "kind": "long-turn", "name": "Part 2 · Long turn", "prepSeconds": 60, "speakSeconds": 120 },
+        { "n": 3, "kind": "discussion", "name": "Part 3 · Discussion", "minutes": 5 }
+      ]
+    }
+  ]
+}

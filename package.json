@@ -1,8 +1,14 @@
 {
-  "name": "bandup-ielts",
+  "name": "bandup",
   "private": true,
   "type": "module",
   "version": "1.0.0",
-  "description": "Free IELTS practice website with AI band scores",
-  "engines": { "node": ">=18" }
+  "description": "Free practice for IELTS, CELPIP, PTE Academic and TOEFL iBT with AI marking on each exam\u2019s own scale",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "validate": "node scripts/validate.mjs",
+    "test": "node --test && node scripts/validate.mjs"
+  }
 }

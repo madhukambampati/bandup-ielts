@@ -1,0 +1,81 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "BandUp exam pack",
+  "type": "object",
+  "required": ["id", "family", "name", "trademark", "verified", "scale", "levelMap", "sections"],
+  "properties": {
+    "id": { "type": "string" },
+    "family": { "type": "string" },
+    "name": { "type": "string" },
+    "blurb": { "type": "string" },
+    "order": { "type": "number" },
+    "trademark": { "type": "string" },
+    "verified": { "type": "string" },
+    "sources": { "type": "array", "items": { "type": "string" } },
+    "scale": {
+      "type": "object",
+      "required": ["kind", "min", "max", "label", "format", "overall"],
+      "properties": {
+        "kind": { "enum": ["half-step", "integer", "points"] },
+        "min": { "type": "number" },
+        "max": { "type": "number" },
+        "step": { "type": "number" },
+        "label": { "type": "string" },
+        "format": { "type": "string" },
+        "overall": {
+          "type": "object",
+          "required": ["method"],
+          "properties": {
+            "method": { "enum": ["mean-round-half-band", "weighted-mean-round-half-band", "mean-round-integer", "holistic", "trait-estimate", "none"] }
+          }
+        },
+        "comparable": {
+          "type": "object",
+          "required": ["scale", "table"],
+          "properties": {
+            "scale": { "type": "string" },
+            "until": { "type": "string" },
+            "table": { "type": "array", "items": { "type": "array" } }
+          }
+        }
+      }
+    },
+    "levelMap": {
+      "type": "object",
+      "required": ["beginner", "intermediate", "advanced", "professional"],
+      "properties": {
+        "beginner": { "type": "array", "items": { "type": "number" } },
+        "intermediate": { "type": "array", "items": { "type": "number" } },
+        "advanced": { "type": "array", "items": { "type": "number" } },
+        "professional": { "type": "array", "items": { "type": "number" } }
+      }
+    },
+    "sections": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["skill"],
+        "properties": {
+          "skill": { "enum": ["listening", "reading", "writing", "speaking"] },
+          "minutes": { "type": "number" },
+          "questions": { "type": "number" },
+          "playback": { "enum": ["once", "replay"] },
+          "sharesItemsWith": { "type": "string" },
+          "rubric": { "type": "string" },
+          "aggregate": { "enum": ["mean-round-half-band", "weighted-mean-round-half-band", "mean-round-integer", "holistic", "trait-estimate", "none"] },
+          "raw": {
+            "type": "object",
+            "required": ["outOf", "table"],
+            "properties": {
+              "outOf": { "type": "number" },
+              "asked": { "type": "number" },
+              "table": { "type": "array", "items": { "type": "array" } }
+            }
+          },
+          "tasks": { "type": "array", "items": { "type": "object", "required": ["id", "rubric"] } },
+          "parts": {}
+        }
+      }
+    }
+  }
+}

@@ -6,21 +6,21 @@ Constraints held at every step: **free**, **Vercel**, **prompts server-side**,
 
 ---
 
-## Open decisions (these change the work — see questions at the end)
+## Decisions (settled 2026-11-19)
 
-| # | Decision | Why it matters |
+| # | Decision | Chosen |
 |---|---|---|
-| **D1** | **TOEFL scale: 1–6 (current official) or 0–30 (retired Jan 2026)?** | Recommend **1–6 + the 0–120 comparable figure**, since that is what a 2026 score report shows. Shipping 0–30 means our TOEFL marking is wrong against every current report. |
-| **D2** | **Pure-pronunciation tasks** — PTE *Read Aloud* / *Repeat Sentence*, TOEFL *Listen and Repeat*. Text-only marking cannot judge these. | Recommend shipping them as **unscored practice** (show the target, record, let the student self-compare) and saying so on screen, consistent with v1's honesty about pronunciation. Scoring them from a transcript would be a fake number. |
-| **D3** | **Build order** — all five packs thin, or IELTS deep first? | Recommend **engine + IELTS Academic/GT first** (migrating what already works), then CELPIP, PTE, TOEFL. Keeps a shippable site at every step. |
-| **D4** | **Overall score where the exam has none** (CELPIP publishes no overall; PTE's is explicitly not an average). | Recommend **four skill scores only**, plus a clearly-labelled "BandUp estimate" the student can expand — never presented as the exam's own overall. |
+| **D1** | TOEFL scale | **1–6 in half-point steps, with the comparable 0–120 total shown beside it.** The 0–30 per-section scale was retired on 21 January 2026, so marking on it would not match any current score report. The 0–120 figure keeps students' scores usable at universities that have not updated their requirement pages. |
+| **D2** | Pure-pronunciation tasks (PTE *Read Aloud*, *Repeat Sentence*; TOEFL *Listen and Repeat*) | **Unscored practice, stated on screen.** Show the target, let the student record and self-compare, and say plainly it is not scored. Only text reaches the examiner, so a score would mostly measure speech-to-text accuracy. This extends v1's existing honesty about pronunciation. |
+| **D3** | Overall score where the exam publishes none (CELPIP, PTE) | **Four skill scores only; a clearly-labelled "BandUp estimate" behind a toggle.** Never presented as the exam's own overall. Enforced in code: `hasOfficialOverall()` returns false for those scales, and `validate.mjs` rejects any pack declaring `trait-estimate` as its official overall. |
+| **D4** | Build order | **Engine + IELTS first, then CELPIP, PTE, TOEFL.** Migrates what already works, proves the pack model on General Training (mostly a data diff), and keeps the site shippable at every phase. |
 
 ---
 
 ## Phase 0 — Groundwork (no behaviour change)
 1. Split `public/index.html` into `index.html` + `app.js` + `styles.css`. No logic edits.
-2. Add `content/schema/*.json` and `npm run validate`.
-3. Add `src/engine/scale.js` with `half-step` / `integer` / `points` kinds and the
+2. Add `schema/*.json` and `npm run validate`.
+3. Add `public/engine/scale.js` with `half-step` / `integer` / `points` kinds and the
    aggregate functions; unit-test the IELTS rounding rules against the official
    worked examples (6.5/6.5/5.0/7.0 → 6.5; 4.0/4.5/4.0/4.0 → 4.0; 6.5/6.5/5.5/6.0 → 6.0).
 
@@ -28,7 +28,7 @@ Constraints held at every step: **free**, **Vercel**, **prompts server-side**,
 
 ## Phase 1 — Extract the engine, IELTS Academic as the first pack
 4. Move all IELTS content out of `index.html` and `api/_content.js` into
-   `content/exams/ielts-academic/`. **Delete the duplication** — both sides now import
+   `public/content/exams/ielts-academic/`. **Delete the duplication** — both sides now import
    `content/`. This is the single biggest win in the whole project.
 5. Build `registry.js`, `marker.js`, `itemtypes/` for the types v1 already uses
    (gap-fill, tfng, mcq-single).
@@ -51,7 +51,7 @@ Constraints held at every step: **free**, **Vercel**, **prompts server-side**,
 10. New item types: `apply-a-diagram`. New aggregate: `holistic`.
 11. Content: 6 Listening parts, 4 Reading parts, 2 Writing tasks, 8 Speaking tasks.
 12. Rubrics with Content/Coherence · Vocabulary · Readability/Listenability · Task Fulfillment.
-13. Per D4: four levels 0–12, no invented overall.
+13. Per D3: four levels 0–12, no invented overall.
 
 **Ships:** first non-IELTS exam, and the first real test of "is this just data?"
 

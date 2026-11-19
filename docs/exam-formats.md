@@ -5,7 +5,7 @@ periodically — re-verify before each content release. Sources are listed per e
 
 > **Why this document exists:** BandUp marks answers on each exam's own scale. If our
 > format or scale is out of date, the score we show is wrong even when the AI marking is
-> good. This file is the single source of truth that `content/exams/<id>/exam.json`
+> good. This file is the single source of truth that `public/content/exams/<id>/exam.json`
 > is built from.
 
 ---
@@ -127,7 +127,7 @@ written discourse) were **removed from score reports in November 2021** — do n
 1. **Scales are not interchangeable.** Four different kinds: half-band (IELTS, TOEFL),
    integer level (CELPIP), raw points (PTE). Scale behaviour must be data, not `if` branches.
 2. **"Overall score" is not universal.** CELPIP publishes none; PTE's is explicitly not an
-   average. Inventing one would be dishonest — see decision D4 in `roadmap.md`.
+   average. Inventing one would be dishonest — see decision D3 in `roadmap.md`.
 3. **Criterion aggregation differs.** IELTS = mean of 4 criteria (and Writing T2 weighted 2×);
    CELPIP = holistic; PTE = trait partial-credit; TOEFL = per-task rubric → band.
 4. **Academic vs GT Reading need separate raw→band tables.** v1 has a single `REA_T`,
