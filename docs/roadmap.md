@@ -17,85 +17,116 @@ Constraints held at every step: **free**, **Vercel**, **prompts server-side**,
 
 ---
 
-## Phase 0 — Groundwork (no behaviour change)
-1. Split `public/index.html` into `index.html` + `app.js` + `styles.css`. No logic edits.
-2. Add `schema/*.json` and `npm run validate`.
-3. Add `public/engine/scale.js` with `half-step` / `integer` / `points` kinds and the
-   aggregate functions; unit-test the IELTS rounding rules against the official
-   worked examples (6.5/6.5/5.0/7.0 → 6.5; 4.0/4.5/4.0/4.0 → 4.0; 6.5/6.5/5.5/6.0 → 6.0).
+## What "done" means
 
-**Ships:** identical site, tested scale maths underneath.
+Anyone arrives, picks their exam, and can either **drill one module** or **sit a full
+timed test** that behaves like the real thing and ends with a real score report. Free,
+no account needed. For every exam: all four modules, several practice papers, module
+tips, and AI marking of Writing and Speaking.
 
-## Phase 1 — Extract the engine, IELTS Academic as the first pack
-4. Move all IELTS content out of `index.html` and `api/_content.js` into
-   `public/content/exams/ielts-academic/`. **Delete the duplication** — both sides now import
-   `content/`. This is the single biggest win in the whole project.
-5. Build `registry.js`, `marker.js`, `itemtypes/` for the types v1 already uses
-   (gap-fill, tfng, mcq-single).
-6. Rewrite `api/ai.js` to take `{ examId, mode, itemId, answer, level }` and assemble
-   prompts from `_prompt.js` + rubric data. Prompts stay on the server.
-7. Make the result renderer rubric-driven (loop `rubric.criteria`, no hardcoded `ta/cc/lr/gra`).
+| Requirement | Where it is met |
+|---|---|
+| All four modules for every exam | `sections` in each `exam.json`; one item set per module per form |
+| Scores at the end, like a real exam | Exam mode + `report.js` (Phase 2) |
+| Practise like the real exam | Real clocks, audio once, hints off, no feedback until the end |
+| Several practice papers | `forms/test-01.json`, `test-02`, `test-03` per exam |
+| Tips per module | `tips/<skill>.json` per exam, written per level |
+| AI marking of Writing **and** Speaking | `api/ai.js`, one call per skill |
+| Listening and Reading | Objective marking in the browser: instant, unlimited, free. AI explains wrong answers on request rather than scoring them |
+| Free | Objective modules cost nothing; one daily AI limit per visitor across all exams |
 
-**Ships:** v1 feature set, now data-driven. Regression-test every screen against `main`.
+---
 
-## Phase 2 — Exam picker + IELTS General Training
-8. Add the exam-choice layer: landing → pick exam → skills. Hash routes become
-   `#/ielts-academic/writing`. `localStorage` migrates `bandup.v1` → `bandup.v2`.
-9. Ship `ielts-general`: reuses Listening and Speaking wholesale, adds GT Reading
-   (5–6 short texts) and GT Writing Task 1 **letters**, with the **separate GT
-   raw→band table** (v1's single `REA_T` is wrong for GT).
+## Phase 0 — Groundwork ✅ done
+1. ✅ Split `public/index.html` into `index.html` + `app.js` + `styles.css`, verified in a browser.
+2. ✅ `schema/`, `scripts/validate.mjs`, `test/` with `npm test`.
+3. ✅ `public/engine/scale.js` — scales as data, tested against the boards' worked examples.
+4. ✅ `ielts-academic` and `ielts-general` packs (identity + scale), with the separate
+   General Training Reading table that v1 was missing.
 
-**Ships:** two exams, and proof the pack model works — GT is mostly a data diff.
+## Phase 1 — Engine, and IELTS Academic as real data
+5. Move every IELTS item out of `app.js` and `api/_content.js` into
+   `public/content/exams/ielts-academic/items/`. **Delete the duplication.**
+6. `registry.js` (load packs, resolve `sharesItemsWith`), `marker.js`, and `itemtypes/`
+   for what v1 already uses: `gap-fill`, `tfng`, `mcq-single`.
+7. Rewrite `api/ai.js` to `{ examId, mode, itemId|formId, answer, level }`, assembling
+   prompts from `_prompt.js` + `_personas.js` + rubric data. Prompts stay server-side.
+8. Make the result renderer rubric-driven — no hardcoded `ta`/`cc`/`lr`/`gra`.
+9. `tips/*.json` for the four IELTS modules; the Learn page renders from the files.
 
-## Phase 3 — CELPIP-General
-10. New item types: `apply-a-diagram`. New aggregate: `holistic`.
-11. Content: 6 Listening parts, 4 Reading parts, 2 Writing tasks, 8 Speaking tasks.
-12. Rubrics with Content/Coherence · Vocabulary · Readability/Listenability · Task Fulfillment.
-13. Per D3: four levels 0–12, no invented overall.
+**Ships:** v1's features, now data-driven, with per-module tips. Regression-tested against `main`.
 
-**Ships:** first non-IELTS exam, and the first real test of "is this just data?"
+## Phase 2 — Exam mode, score report, exam picker, General Training
+10. `session.js`: practice vs exam mode — real clocks, audio once, hints off,
+    no feedback until the end, no returning to a finished section.
+11. `report.js`: one score report from a finished form — four section scores, the exam's
+    own overall rounding shown explicitly, per-criterion rows for Writing and Speaking.
+12. `forms/test-01.json` for IELTS Academic; full-test flow end to end.
+13. Exam picker: landing → choose exam → drill a module or sit a full test.
+    Hash routes become `#/ielts-academic/writing`. Migrate `bandup.v1` → `bandup.v2`
+    (existing scores filed under `ielts-academic`).
+14. Ship `ielts-general`: Listening and Speaking shared from Academic, plus GT Reading
+    (5–6 short texts) and GT Writing Task 1 letters.
 
-## Phase 4 — PTE Academic
-14. New item types: `reorder-paragraph`, `dropdown-fill`, `drag-fill`,
+**Ships:** the headline feature — a real timed IELTS test with a score report — on two exams.
+
+## Phase 3 — Practice papers for IELTS
+15. Forms 2 and 3 for both IELTS exams: new original Listening, Reading, Writing and
+    Speaking sets, topic-varied, with a difficulty ladder across levels.
+
+**Ships:** three full papers per IELTS exam. This is the first point the site is genuinely
+useful to someone preparing seriously.
+
+## Phase 4 — CELPIP-General
+16. New item type: `apply-a-diagram`. New aggregate: `holistic`.
+17. Content: 6 Listening parts, 4 Reading parts, 2 Writing tasks, 8 Speaking tasks, tips, 1 form.
+18. Rubrics: Content/Coherence · Vocabulary · Readability/Listenability · Task Fulfillment.
+19. Per D3: four levels 0–12, no invented overall.
+
+## Phase 5 — PTE Academic
+20. New item types: `reorder-paragraph`, `dropdown-fill`, `drag-fill`,
     `highlight-incorrect-words`, `select-missing-word`, `dictation`.
-15. Marker gains `penaliseWrong` and `form-gate` (the 40–100 word zero rule on
-    Summarize Spoken Text).
-16. Honest limits page: PTE is AI-marked on traits including oral fluency and
-    pronunciation; our 10–90 is an **estimate**, and the pure-pronunciation tasks follow D2.
+21. Marker gains `penaliseWrong` and `form-gate` (the 40–100 word zero rule).
+22. Per D2, *Read Aloud* and *Repeat Sentence* ship as unscored practice.
+23. Honest limits: our 10–90 is an estimate; Pearson's own overall is not an average.
 
-**Ships:** the hardest pack. Its item types are where most new engine code lands.
-
-## Phase 5 — TOEFL iBT (current format)
-17. New item types: `complete-the-words`, `build-sentence`, `listen-and-choose-response`.
-18. Scale `1–6` half-steps + the 0–120 comparable table (per D1).
-19. Tasks: Read in Daily Life · Read an Academic Passage · the four Listening types ·
+## Phase 6 — TOEFL iBT (current format)
+24. New item types: `complete-the-words`, `build-sentence`, `listen-and-choose-response`.
+25. Scale 1–6 half-steps plus the comparable 0–120 total (D1).
+26. Tasks: Read in Daily Life · Read an Academic Passage · the four Listening types ·
     Write an Email · Write for an Academic Discussion · Take an Interview.
     *Listen and Repeat* per D2.
-20. Note on screen that the real test is **adaptive** and ours is fixed-form.
+27. Say on screen that the real test is adaptive and ours is fixed-form.
 
-## Phase 6 — Learning layer and polish
-21. Level-based learning paths per exam (beginner → professional), each anchored to that
-    exam's own scale via `levelMap`.
-22. Exam-aware study plan and tutor.
-23. Cross-exam dashboard: "your CELPIP 9 is roughly IELTS 7" using **published**
-    concordances only (Pearson's PTE↔IELTS table, ETS's 1–6↔0–120 table, CELPIP↔CLB↔CEFR),
-    each labelled with its source. No home-made equivalences.
-24. README rewrite, trademark notices for all four exam owners, cost guide update.
+## Phase 7 — Learning layer
+28. Level-based paths per exam (beginner → professional), anchored to that exam's scale.
+29. Exam-aware study plan and tutor.
+30. AI coaching on wrong Listening/Reading answers: where the answer was hiding, and the
+    pattern across a student's mistakes.
+31. Cross-exam view using **published** concordances only (Pearson's PTE↔IELTS table,
+    ETS's 1–6↔0–120 table, CELPIP↔CLB↔CEFR), each labelled with its source.
 
-## Phase 7 — Content scale-up
-25. 3–5 full practice sets per exam, all original, each tagged `"provenance": "original"`.
-26. Topic variety and a difficulty ladder per level band.
+## Phase 8 — Scale-up and polish
+32. More forms per exam; topic variety; difficulty ladder per level band.
+33. README rewrite, trademark notices for all four exam owners, cost guide update.
 
 ---
 
 ## Cost and the "stays free" promise
-Five packs multiply **content**, not necessarily spend. Keeping the daily AI limit
-per visitor **across all exams** means the ceiling per visitor is unchanged from v1.
-Objective skills (Listening, Reading) stay unlimited and cost nothing — they are marked
-in the browser. Only Writing, Speaking, plan and tutor hit the API. Tutor and plan stay on
-Haiku; marking stays on Sonnet. If spend grows: lower `DAILY_LIMIT`, or move marking of
-short tasks (PTE one-sentence summary, TOEFL Build a Sentence) to Haiku, which is a
-per-rubric setting rather than a code change.
+
+Full timed tests across five exam packs multiply **content**, not necessarily spend.
+
+- **Listening and Reading cost nothing.** They are marked in the browser against the
+  answer key: instant, unlimited, and correct every time. This is most of what a student
+  does, and it stays free forever.
+- **A full test costs two AI calls**, not one per task: the whole Writing script in one
+  request, the whole Speaking transcript in another. A full IELTS test is therefore two
+  Sonnet calls. PTE, with nine productive tasks, is still two.
+- **The daily limit stays per visitor per day across all exams**, so the ceiling per
+  visitor is unchanged from v1 no matter how many packs exist.
+- Tutor and study plans stay on Haiku; marking stays on Sonnet.
+- If spend grows: lower `DAILY_LIMIT`, or move short-task marking (PTE's one-sentence
+  summary, TOEFL's Build a Sentence) to Haiku — a per-rubric setting, not a code change.
 
 ## Risks
 - **Formats change.** `docs/exam-formats.md` is dated and sourced; re-verify per release.

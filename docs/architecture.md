@@ -38,7 +38,8 @@ public/
     scale.js       score scales: kinds, rounding, raw->score, aggregation
     registry.js    loads packs, resolves sharesItemsWith
     marker.js      objective marking, one policy per item type
-    session.js     test session state machine: parts, timers, one-play audio, drafts
+    session.js     practice/exam session: sections, clocks, one-play audio, drafts
+    report.js      builds one score report from a finished form
     levels.js      beginner -> professional behaviour
     itemtypes/     one module per item type: { render(), collect(), mark() }
       gap-fill.js  tfng.js  mcq-single.js  mcq-multi.js  matching.js  map-label.js
@@ -46,9 +47,11 @@ public/
       select-missing-word.js  dictation.js  build-sentence.js  complete-the-words.js
   content/       ← pure data. The only thing you add per exam.
     exams/<exam-id>/
-      exam.json          identity, scale, sections, timing, levelMap
-      rubrics/*.json     criteria names + how to aggregate  (public half)
-      items/<skill>/*.json
+      exam.json            identity, scale, sections, timing, levelMap
+      rubrics/*.json       criteria names + how to aggregate  (public half)
+      items/<skill>/*.json one practice item or item set
+      forms/test-01.json   a complete practice paper: which set feeds each section
+      tips/<skill>.json    module tips, written per level
 
 api/                     ← server only. Never shipped to the browser.
   ai.js                  single route: { examId, mode, itemId, answer, level }
@@ -81,7 +84,7 @@ A visitor can therefore see *that* CELPIP Writing is marked on Readability, and 
 extract a prompt that turns the site into a general-purpose AI proxy. That is exactly v1's
 security property, preserved while making the UI data-driven.
 
-## 3. The three data contracts
+## 3. The data contracts
 
 ### 3.1 `exam.json` — identity, scale, shape
 
@@ -193,7 +196,102 @@ Adding an exam with five criteria named differently needs **no UI code**.
 
 ---
 
-## 4. How a request flows
+### 3.4 `form.json` — one complete practice paper
+
+A *form* is what makes "sit a real test" possible: it names which item set feeds each
+section, in the order the real exam runs them.
+
+```json
+{
+  "id": "ielts-academic/forms/test-01",
+  "name": "Practice Test 1",
+  "provenance": "original",
+  "sections": [
+    { "skill": "listening", "set": "ielts-academic/listening/set-01" },
+    { "skill": "reading",   "set": "ielts-academic/reading/set-01" },
+    { "skill": "writing",   "tasks": ["ielts-academic/writing/task1-01",
+                                      "ielts-academic/writing/task2-01"] },
+    { "skill": "speaking",  "set": "ielts-academic/speaking/set-01" }
+  ]
+}
+```
+
+Adding "Practice Test 4" is one more file. Adding a *new exam's* forms is the same file
+shape, so the test runner needs no per-exam code.
+
+### 3.5 `tips/<skill>.json` — module coaching, as data
+
+```json
+{
+  "skill": "listening",
+  "examId": "ielts-academic",
+  "general": [
+    { "title": "You hear it once", "body": "Read the questions in the gap before each part…" }
+  ],
+  "byLevel": {
+    "beginner": [ { "title": "Follow the order", "body": "Answers come in the same order as the recording." } ],
+    "professional": [ { "title": "Distractors", "body": "Speakers correct themselves. The second number is usually the answer." } ]
+  },
+  "mistakes": [
+    { "wrong": "writing two words where one is allowed", "fix": "Check the word limit on every gap." }
+  ]
+}
+```
+
+The Learn page renders whatever is in the file. No exam-specific UI.
+
+---
+
+## 4. Two ways to practise: practice mode and exam mode
+
+This is the behavioural core of the product, and it is a real change from v1.
+
+| | **Practice mode** | **Exam mode (full test)** |
+|---|---|---|
+| Scope | One module | All four sections, in the real order, from one form |
+| Timer | Soft, visible, pausable | Real section clock, no pause |
+| Audio | Replayable at the level's speed | **Plays once**, as in the real test |
+| Hints | Shown per level | Off |
+| Feedback | Immediate, per question | **Nothing until the whole test ends** |
+| Result | One module's score | **One score report**: four section scores plus the exam's overall |
+
+v1 only had practice mode, and made audio play once as a side effect of choosing an
+advanced *level*. Mode and level become independent: a beginner can sit a full timed test,
+and an advanced student can still drill one module with hints on.
+
+`session.js` owns this. It takes `{ form, mode }` and drives: current section, clock,
+section hand-off, answer storage, and — at the end — one marking pass.
+
+### Marking a full test
+
+Objective sections are marked in the browser the moment the test ends: instant, free,
+unlimited, and always correct.
+
+Productive sections are sent to the AI examiner **one call per skill, not per task**:
+the whole Writing script in one request, the whole Speaking transcript in another. That
+is cheaper (a full IELTS test costs two Sonnet calls, so the existing per-visitor daily
+limit still means something), and it is *more* accurate, because the examiner sees every
+answer together the way a real examiner does.
+
+### What the AI does for Listening and Reading
+
+It does **not** score them. The answer key decides the score, in the browser — which
+keeps those sections free, unlimited, instant and never wrong. The AI's job there is
+**coaching**: on request, it explains the wrong answers, points at where in the text or
+transcript the answer was hiding, and names the pattern across a student's mistakes.
+Scoring stays objective; the AI explains.
+
+### What the AI can and cannot judge in Speaking
+
+Only text reaches the examiner, because the browser's speech recognition hands us a
+transcript. So Fluency and Coherence, Lexical Resource, Grammatical Range and Accuracy
+and Task Response are all genuinely marked, and **pronunciation is not**. The result says
+so and gives a pronunciation tip instead of a pronunciation score. Scoring delivery would
+need an audio model, which does not fit the free, server-side-prompt shape of this site.
+
+---
+
+## 5. How a request flows
 
 ```
 browser                                  server (api/ai.js)
@@ -217,7 +315,7 @@ replaced loose indices with a stable `itemId`.
 
 ---
 
-## 5. Cross-cutting pieces that stay shared
+## 6. Cross-cutting pieces that stay shared
 
 - **Levels** (beginner → professional) stay a single cross-exam layer in `levels.js`:
   audio rate, one-play exam mode, hint visibility, timer strictness, feedback tone.
@@ -236,13 +334,15 @@ replaced loose indices with a stable `itemId`.
 
 ---
 
-## 6. The test for "adding an exam is just data"
+## 7. The test for "adding an exam is just data"
 
 A new exam ships without touching `public/engine/` if and only if:
 
 1. its scale is one of `half-step` / `integer` / `points`;
 2. its objective items use registered item types;
-3. its productive-skill marking uses a registered `aggregate`.
+3. its productive-skill marking uses a registered `aggregate`;
+4. its full tests are expressed as `forms/*.json` over those items;
+5. its coaching content is `tips/<skill>.json`.
 
 If an exam brings a genuinely new interaction (say, drag-and-drop map labelling), the
 work is **one new module in `public/engine/itemtypes/`** implementing `render/collect/mark` — additive,
