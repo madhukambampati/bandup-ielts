@@ -1,0 +1,61 @@
+{
+  "skill": "writing",
+  "examId": "ielts-academic",
+  "general": [
+    {
+      "body": "Task 1: always write an overview of the main trends. No overview means a maximum of band 5 for Task Achievement."
+    },
+    {
+      "body": "Task 2: answer every part of the question and make your opinion clear in the introduction and conclusion."
+    },
+    {
+      "body": "Plan for 5 minutes before you write. It saves time later."
+    },
+    {
+      "body": "Leave 3 minutes to check articles, verb tenses and plurals."
+    }
+  ],
+  "byLevel": {
+    "beginner": [
+      {
+        "task": "task1",
+        "body": "Simple plan: 1) Rewrite the question in your own words. 2) One overview sentence with the biggest trends. 3) Two body paragraphs with numbers. No opinions in Task 1."
+      },
+      {
+        "task": "task2",
+        "body": "Simple plan: Introduction (repeat the question + your opinion) → Body 1 (one idea + example) → Body 2 (another idea + example) → Conclusion. Aim for 260–280 words."
+      }
+    ],
+    "intermediate": [
+      {
+        "task": "task1",
+        "body": "Examiners look for a clear overview. Write one sentence with the biggest trends before any numbers."
+      },
+      {
+        "task": "task2",
+        "body": "Answer every part of the question. A 'discuss both views' question needs both sides AND your opinion."
+      }
+    ],
+    "advanced": [
+      {
+        "task": "task1",
+        "body": "Group the data rather than listing it, and use varied comparison language (roughly double, a sixteen-fold rise)."
+      },
+      {
+        "task": "task2",
+        "body": "Keep a consistent position throughout and extend each idea with a reason, a consequence and a specific example."
+      }
+    ],
+    "professional": [
+      {
+        "task": "task1",
+        "body": "Band 8+: precise data selection, no listing every figure, sophisticated but natural comparisons."
+      },
+      {
+        "task": "task2",
+        "body": "Band 8+: nuanced position, fully extended ideas, precise collocations, flexible complex grammar with very few errors."
+      }
+    ]
+  },
+  "mistakes": []
+}

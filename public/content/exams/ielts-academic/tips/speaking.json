@@ -1,0 +1,41 @@
+{
+  "skill": "speaking",
+  "examId": "ielts-academic",
+  "general": [
+    {
+      "body": "It is a conversation, not a quiz. Long, natural answers score higher than perfect short ones."
+    },
+    {
+      "body": "If you do not understand, ask: 'Could you repeat the question, please?' It costs nothing."
+    },
+    {
+      "body": "In Part 2, use all four bullet points as your plan and keep talking until the examiner stops you."
+    },
+    {
+      "body": "Pronunciation is a quarter of your score. Speak clearly at a steady pace, not fast."
+    }
+  ],
+  "byLevel": {
+    "beginner": [
+      {
+        "body": "Answer + reason + example. For example: 'I live in an apartment, because it is close to my work. For example, I can walk there in ten minutes.'"
+      }
+    ],
+    "intermediate": [
+      {
+        "body": "Extend every answer with 'because' and a short example. Don't memorise answers; examiners notice."
+      }
+    ],
+    "advanced": [
+      {
+        "body": "Use a range of tenses and some less common phrases naturally, like 'to be honest' or 'it depends on'."
+      }
+    ],
+    "professional": [
+      {
+        "body": "Show flexibility: speculate, contrast and concede ('Admittedly…, but…'). Keep it natural, not rehearsed."
+      }
+    ]
+  },
+  "mistakes": []
+}

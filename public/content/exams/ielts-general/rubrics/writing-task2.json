@@ -1,0 +1,18 @@
+{
+  "id": "writing-task2",
+  "name": "IELTS Writing Task 2",
+  "scaleRef": "self",
+  "aggregate": "mean-round-half-band",
+  "criteria": [
+    { "key": "ta", "name": "Task Response",
+      "factors": ["Addresses all parts of the task", "Presents a clear position throughout", "Develops ideas with support", "Stays relevant"] },
+    { "key": "cc", "name": "Coherence and Cohesion",
+      "factors": ["Logical organisation", "Clear progression", "Range of cohesive devices", "Paragraphing"] },
+    { "key": "lr", "name": "Lexical Resource",
+      "factors": ["Range of vocabulary", "Accuracy of word choice", "Collocation", "Spelling"] },
+    { "key": "gra", "name": "Grammatical Range and Accuracy",
+      "factors": ["Range of structures", "Accuracy", "Punctuation", "Error density"] }
+  ],
+  "cannotAssess": [],
+  "outputs": ["summary", "strengths", "fixes", "next_step", "model_paragraph"]
+}

@@ -1,0 +1,25 @@
+{
+  "skill": "listening",
+  "examId": "ielts-academic",
+  "general": [
+    {
+      "body": "Read the questions before the audio starts and guess the type of answer (a number, a name, a place)."
+    },
+    {
+      "body": "Speakers often change their mind. The first thing you hear is often a trap."
+    },
+    {
+      "body": "Check spelling and plurals. A wrong spelling is a wrong answer."
+    },
+    {
+      "body": "Write numbers as digits; it is faster and safer."
+    }
+  ],
+  "byLevel": {
+    "beginner": [],
+    "intermediate": [],
+    "advanced": [],
+    "professional": []
+  },
+  "mistakes": []
+}

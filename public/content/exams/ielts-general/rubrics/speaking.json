@@ -1,0 +1,20 @@
+{
+  "id": "speaking",
+  "name": "IELTS Speaking",
+  "scaleRef": "self",
+  "aggregate": "mean-round-half-band",
+  "criteria": [
+    { "key": "fc", "name": "Fluency and Coherence",
+      "factors": ["Speaks at length", "Develops answers", "Logical flow", "Linking and hesitation"] },
+    { "key": "lr", "name": "Lexical Resource",
+      "factors": ["Range of vocabulary", "Paraphrase", "Collocation", "Idiomatic language"] },
+    { "key": "gra", "name": "Grammatical Range and Accuracy",
+      "factors": ["Range of structures", "Accuracy", "Tense control", "Error density"] }
+  ],
+  "cannotAssess": [
+    { "key": "pron", "name": "Pronunciation",
+      "why": "Only a transcript reaches the examiner, so rhythm, stress and intonation cannot be heard. The real IELTS Speaking test marks Pronunciation as a fourth criterion worth 25%, so a BandUp Speaking score is an estimate from three criteria, not a full examiner band.",
+      "insteadGive": "pronunciation_tip" }
+  ],
+  "outputs": ["summary", "best_answer", "upgrades", "pronunciation_tip", "model_part2"]
+}

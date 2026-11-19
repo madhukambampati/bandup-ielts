@@ -1,0 +1,214 @@
+{
+  "id": "ielts-academic/listening/set-01",
+  "provenance": "original",
+  "skill": "listening",
+  "name": "Practice Set 1",
+  "note": "Two parts migrated from BandUp v1. A full IELTS Listening paper has four parts and 40 questions.",
+  "parts": [
+    {
+      "n": 1,
+      "context": "A phone call about joining a community class",
+      "kind": "conversation",
+      "audio": {
+        "lines": [
+          [
+            "Receptionist",
+            "Good morning, Riverside Community Centre. How can I help you?"
+          ],
+          [
+            "Caller",
+            "Hi. I'd like to sign up for the evening English conversation class, please."
+          ],
+          [
+            "Receptionist",
+            "Of course. Can I take your full name?"
+          ],
+          [
+            "Caller",
+            "Yes. It's Daniel Okafor. That's O, K, A, F, O, R."
+          ],
+          [
+            "Receptionist",
+            "Thank you, Daniel. And what's the best phone number for you?"
+          ],
+          [
+            "Caller",
+            "It's oh, seven, seven, four, nine, two, three, one, five, eight."
+          ],
+          [
+            "Receptionist",
+            "Lovely. The class runs on Tuesdays and Thursdays. Which day would suit you?"
+          ],
+          [
+            "Caller",
+            "Tuesdays are difficult because I work late, so Thursday, please."
+          ],
+          [
+            "Receptionist",
+            "Thursday it is. The class starts at a quarter past seven and finishes at nine."
+          ],
+          [
+            "Caller",
+            "Great. And how much does it cost?"
+          ],
+          [
+            "Receptionist",
+            "It's normally eighty dollars for the ten-week course, but students and seniors pay fifty-five."
+          ],
+          [
+            "Caller",
+            "I'm not a student any more, so I'll pay the full price."
+          ],
+          [
+            "Receptionist",
+            "No problem. Oh, and the class is held in the library room on the second floor, not in the main hall."
+          ],
+          [
+            "Caller",
+            "The library room, second floor. Got it. Thanks so much."
+          ]
+        ]
+      },
+      "questions": [
+        {
+          "id": "l1",
+          "n": 1,
+          "type": "gap-fill",
+          "prompt": "Surname:",
+          "answer": [
+            "Okafor"
+          ],
+          "explain": "He spells it out: O, K, A, F, O, R. Spelled names are very common in Section 1."
+        },
+        {
+          "id": "l2",
+          "n": 2,
+          "type": "gap-fill",
+          "prompt": "Phone number:",
+          "answer": [
+            "0774923158",
+            "07749 23158"
+          ],
+          "explain": "'Oh' means zero. Listen for the digits one by one and write them as numbers."
+        },
+        {
+          "id": "l3",
+          "n": 3,
+          "type": "gap-fill",
+          "prompt": "Day chosen:",
+          "answer": [
+            "Thursday",
+            "Thursdays"
+          ],
+          "explain": "Tuesday is mentioned first, but it is rejected. The answer comes after 'so'."
+        },
+        {
+          "id": "l4",
+          "n": 4,
+          "type": "gap-fill",
+          "prompt": "Class start time:",
+          "answer": [
+            "7:15",
+            "7.15",
+            "715",
+            "7:15pm",
+            "7.15pm",
+            "19:15",
+            "quarter past seven"
+          ],
+          "explain": "'A quarter past seven' is 7:15. Nine is the finish time, not the start."
+        },
+        {
+          "id": "l5",
+          "n": 5,
+          "type": "gap-fill",
+          "prefix": "$",
+          "prompt": "Fee he will pay:",
+          "answer": [
+            "80",
+            "eighty",
+            "80dollars"
+          ],
+          "explain": "$55 is for students and seniors. He says he is not a student, so he pays $80."
+        },
+        {
+          "id": "l6",
+          "n": 6,
+          "type": "gap-fill",
+          "prompt": "Room: the ______ room",
+          "answer": [
+            "library"
+          ],
+          "explain": "The speaker corrects a likely guess: 'not in the main hall'. Distractors like this are common."
+        }
+      ]
+    },
+    {
+      "n": 2,
+      "context": "A guided tour introduction at a museum",
+      "kind": "monologue",
+      "audio": {
+        "lines": [
+          [
+            "Guide",
+            "Welcome, everyone, to the Harbour Maritime Museum. Before we begin, a few practical points. The museum opened in nineteen eighty-seven in what used to be the town's fish market, and it was extended in twenty fifteen, when the new glass gallery was added. Today we'll start on the ground floor with the shipwreck collection. It's our most popular exhibit, so it's best to see it now, before the school groups arrive later this morning. Photography is allowed everywhere except in the map room, because the old maps are damaged by camera flash. Please note that the café on the top floor closes at three o'clock today, rather than the usual five, as there is a private event this evening. And finally, if you'd like to try our sailing simulator, please book a time at the information desk, as places are limited."
+          ]
+        ]
+      },
+      "questions": [
+        {
+          "id": "l7",
+          "n": 7,
+          "type": "mcq-single",
+          "prompt": "The museum building was originally",
+          "options": [
+            "a shipyard",
+            "a fish market",
+            "a library"
+          ],
+          "answer": 1,
+          "explain": "'In what used to be the town's fish market.'"
+        },
+        {
+          "id": "l8",
+          "n": 8,
+          "type": "mcq-single",
+          "prompt": "Visitors should see the shipwreck collection first because",
+          "options": [
+            "it closes early today",
+            "it is on the top floor",
+            "it gets busy later"
+          ],
+          "answer": 2,
+          "explain": "School groups arrive later, so it will be crowded. That is the meaning of 'before the school groups arrive'."
+        },
+        {
+          "id": "l9",
+          "n": 9,
+          "type": "mcq-single",
+          "prompt": "Photography is NOT allowed in",
+          "options": [
+            "the glass gallery",
+            "the map room",
+            "the shipwreck collection"
+          ],
+          "answer": 1,
+          "explain": "'Everywhere except in the map room.' Listen for 'except'."
+        },
+        {
+          "id": "l10",
+          "n": 10,
+          "type": "mcq-single",
+          "prompt": "Today the café will close at",
+          "options": [
+            "3 pm",
+            "5 pm",
+            "3:30 pm"
+          ],
+          "answer": 0,
+          "explain": "5 pm is the usual time. Today it is 'three o'clock … rather than the usual five'."
+        }
+      ]
+    }
+  ]
+}

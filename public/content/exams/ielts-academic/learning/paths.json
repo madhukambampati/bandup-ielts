@@ -1,0 +1,45 @@
+{
+  "examId": "ielts-academic",
+  "levels": {
+    "beginner": {
+      "heading": "Beginner plan · from band 4–5 to 5.5–6",
+      "steps": [
+        "Learn the test format first: 4 modules, about 2 hours 45 minutes.",
+        "Do the Listening test with hints on, and always read the transcript afterwards.",
+        "Learn 10 new words a day from the word list below, with a sentence each.",
+        "Write one short Task 1 every week. Use the simple plan shown on the Writing page.",
+        "Practise Speaking Part 1 daily: answer, give a reason, give an example."
+      ]
+    },
+    "intermediate": {
+      "heading": "Intermediate plan · from band 5.5–6 to 6.5–7",
+      "steps": [
+        "Find your weakest module on the Home page and give it half your study time.",
+        "For every wrong Reading answer, underline the exact words that prove the answer.",
+        "Write one Task 2 essay a week in 40 minutes and fix the 'Fix these first' list.",
+        "Stop memorising speaking answers. Practise extending ideas with because, for example, and however.",
+        "Learn word families: economy, economic, economical, economically."
+      ]
+    },
+    "advanced": {
+      "heading": "Advanced plan · from band 6.5–7 to 7.5+",
+      "steps": [
+        "Do every test in exam mode: audio plays once, with the timer on.",
+        "Focus on Not Given vs False. Ask: does the text say the opposite, or say nothing?",
+        "In Writing, aim for fully extended ideas. Each body paragraph needs claim, reason, consequence, example.",
+        "Collect collocations, not single words: 'pose a threat', 'a marked increase'.",
+        "Record your speaking answers and listen back for repeated words and long pauses."
+      ]
+    },
+    "professional": {
+      "heading": "Professional plan · holding band 8+",
+      "steps": [
+        "Practise under full exam conditions, back to back, to build stamina.",
+        "Hunt for small accuracy errors: articles, prepositions, subject-verb agreement.",
+        "Use precise, less common vocabulary only where it is natural.",
+        "In Speaking Part 3, speculate and compare: 'It could be argued that…', 'Whereas in the past…'.",
+        "Ask the AI Tutor to mark you strictly and only list what stops you reaching 9."
+      ]
+    }
+  }
+}

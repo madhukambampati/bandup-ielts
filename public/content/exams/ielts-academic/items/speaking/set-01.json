@@ -1,0 +1,40 @@
+{
+  "id": "ielts-academic/speaking/set-01",
+  "provenance": "original",
+  "skill": "speaking",
+  "name": "Home & a special place",
+  "parts": [
+    {
+      "n": 1,
+      "kind": "qa",
+      "questions": [
+        "Do you live in a house or an apartment?",
+        "What do you like most about your home?",
+        "Is there anything you would like to change about where you live?",
+        "Do you usually spend time at home at weekends? Why?"
+      ]
+    },
+    {
+      "n": 2,
+      "kind": "long-turn",
+      "cue": {
+        "topic": "Describe a place you like to visit to relax.",
+        "points": [
+          "where it is",
+          "how often you go there",
+          "what you do there",
+          "and explain why it helps you relax."
+        ]
+      }
+    },
+    {
+      "n": 3,
+      "kind": "discussion",
+      "questions": [
+        "Why do many people find it hard to relax these days?",
+        "Should employers do more to reduce stress at work?",
+        "How has the way people spend their free time changed compared with the past?"
+      ]
+    }
+  ]
+}

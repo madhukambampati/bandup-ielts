@@ -18,10 +18,13 @@ Free IELTS practice website: Listening and Reading marked instantly, Writing and
 public/index.html          the page shell
 public/app.js              the website's JavaScript (no build step)
 public/styles.css          styles
-public/engine/scale.js     score scales: bands, levels, points, raw->score, aggregation
-public/content/exams/      one folder per exam: scale, sections, rubrics, practice items
+public/engine/             exam-agnostic engine: score scales, objective marking,
+                           the item-type registry and the pack loader
+public/content/exams/      one folder per exam: scale, sections, rubrics, tips,
+                           practice items and full practice papers
 api/ai.js                  serverless route that calls Claude for marking, plan and tutor
-api/_content.js            the Writing/Speaking prompts the examiner marks against
+api/_personas.js           the private half of each rubric: who the examiner is
+api/_prompt.js             builds the examiner prompt from the rubric and the item
 schema/ + scripts/         exam-pack schema and `npm run validate`
 test/                      `npm test`
 vercel.json                Vercel settings
@@ -31,7 +34,9 @@ Work in progress: BandUp is being extended from IELTS-only to IELTS (Academic an
 General Training), CELPIP, PTE Academic and TOEFL iBT. See `docs/architecture.md`,
 `docs/exam-formats.md` and `docs/roadmap.md`.
 
-The AI prompts live on the server, so visitors can only ask for IELTS marking and tutoring, not use your key for anything else. Each visitor gets `DAILY_LIMIT` AI checks a day.
+The AI prompts live on the server, so visitors can only ask for exam marking and tutoring, not use your key for anything else. The browser sends an exam id, a mode and an item id — never content and never a prompt. Each visitor gets `DAILY_LIMIT` AI checks a day, shared across every exam.
+
+Practice content lives in `public/content/` and is read by **both** the browser and the serverless route, so there is one source of truth and nothing to keep in sync.
 
 ## Deploy to Vercel (about 10 minutes)
 

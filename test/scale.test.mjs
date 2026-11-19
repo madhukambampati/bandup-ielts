@@ -4,7 +4,7 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import {
   roundHalfBand, clamp, snap, format, fraction,
-  fromRaw, aggregate, hasOfficialOverall, comparable,
+  fromRaw, aggregate, hasOfficialOverall, comparable, text,
 } from "../public/engine/scale.js";
 
 const ielts = { kind: "half-step", min: 0, max: 9, step: 0.5, label: "Band", format: "Band {v}",
@@ -88,6 +88,14 @@ test("TOEFL reports a comparable 0-120 total during the transition", () => {
   assert.deepEqual(comparable(5.5, toefl), { scale: "0-120", value: 107, until: "2028-01" });
   assert.deepEqual(comparable(4, toefl), { scale: "0-120", value: 72, until: "2028-01" });
   assert.equal(comparable(6, ielts), null);     // IELTS has no second scale
+});
+
+test("the bare number is written the way each exam writes it", () => {
+  assert.equal(text(6.5, ielts), "6.5");
+  assert.equal(text(7, ielts), "7.0");
+  assert.equal(text(9, celpip), "9");
+  assert.equal(text(72, pte), "72");
+  assert.equal(text(null, ielts), "–");
 });
 
 test("formatting and progress fractions work on every scale", () => {

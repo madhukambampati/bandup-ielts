@@ -1,0 +1,195 @@
+{
+  "id": "ielts-academic/reading/set-01",
+  "provenance": "original",
+  "skill": "reading",
+  "name": "Practice Set 1",
+  "note": "Two passages migrated from BandUp v1. A full IELTS Academic Reading paper has three passages and 40 questions.",
+  "minutes": 20,
+  "passages": [
+    {
+      "n": 1,
+      "title": "Bees in the city",
+      "paragraphs": [
+        "Twenty years ago, few city dwellers would have imagined keeping bees on a rooftop. Today, hives sit on top of hotels in London, office towers in Toronto and apartment blocks in Paris. The trend began partly as a response to reports of falling bee numbers in the countryside, where intensive farming and pesticide use had made life difficult for pollinators.",
+        "Surprisingly, cities can be good places for bees. Parks, private gardens and street trees provide a wide variety of flowers that bloom at different times of the year. In contrast, a large farm may grow a single crop that flowers for only a few weeks. Some studies have found that honey produced in cities contains pollen from more plant species than honey from rural areas.",
+        "However, not all scientists welcome the trend. Honeybees are managed animals, rather like livestock, and they compete with thousands of species of wild bees for the same nectar and pollen. In one study of Paris, researchers found that wild pollinators visited flowers less often in areas with a high density of hives. Critics argue that people who want to help nature should plant flowers rather than install new colonies.",
+        "Beekeeping associations have responded by encouraging new keepers to take a training course before buying a hive. In several cities, local governments now require hives to be registered, so that outbreaks of disease can be tracked. A well-kept colony can produce up to 25 kilograms of honey a year, but beginners are often warned that their first summer may produce very little."
+      ]
+    },
+    {
+      "n": 2,
+      "title": "Sleep and learning",
+      "paragraphs": [
+        "For many students, the night before an exam is spent awake, reading notes until the early hours. Research in sleep science suggests that this may be one of the least effective ways to prepare. During sleep, the brain does not simply rest; it actively replays and organises information gathered during the day.",
+        "In a well-known type of experiment, volunteers learn a list of word pairs in the evening. Half are allowed to sleep normally, while the other half stay awake through the night. When both groups are tested the following afternoon, after the second group has had time to recover, those who slept usually remember significantly more. The difference remains even when the tired group is given extra coffee.",
+        "Scientists believe that a stage known as slow-wave sleep is especially important for facts and vocabulary, while rapid eye movement (REM) sleep seems to support skills and creative problem-solving. Because REM periods become longer towards morning, cutting sleep short by waking very early may reduce its benefits more than going to bed late.",
+        "Short daytime naps can also help. A nap of 20 to 30 minutes improves alertness without leaving most people feeling heavy, although longer naps may be needed to reach the deeper stages linked to memory. For language learners, one practical lesson is clear: reviewing new words shortly before sleep, and then again the next day, is more effective than studying them once for a long period."
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "id": "r1",
+      "n": 1,
+      "type": "tfng",
+      "head": "Questions 1–5 · TRUE if the statement agrees with the text, FALSE if it contradicts it, NOT GIVEN if there is no information",
+      "prompt": "Urban beekeeping started partly because of concerns about bees in rural areas.",
+      "answer": "T",
+      "explain": "Paragraph A: the trend began 'as a response to reports of falling bee numbers in the countryside'.",
+      "passage": 1
+    },
+    {
+      "id": "r2",
+      "n": 2,
+      "type": "tfng",
+      "prompt": "Rooftop hives are more common in London than in Paris.",
+      "answer": "NG",
+      "explain": "Both cities are named, but the text never compares how common hives are. No comparison = NOT GIVEN.",
+      "passage": 1
+    },
+    {
+      "id": "r3",
+      "n": 3,
+      "type": "tfng",
+      "prompt": "City flowers tend to bloom over a longer part of the year than many farm crops.",
+      "answer": "T",
+      "explain": "Paragraph B: city flowers bloom 'at different times of the year'; a farm crop flowers 'for only a few weeks'.",
+      "passage": 1
+    },
+    {
+      "id": "r4",
+      "n": 4,
+      "type": "tfng",
+      "prompt": "All scientists agree that urban beekeeping helps wild bees.",
+      "answer": "F",
+      "explain": "Paragraph C: 'not all scientists welcome the trend'. This directly contradicts the statement.",
+      "passage": 1
+    },
+    {
+      "id": "r5",
+      "n": 5,
+      "type": "tfng",
+      "prompt": "Hives must be registered in every Canadian city.",
+      "answer": "NG",
+      "explain": "The text says 'several cities' require registration but says nothing about Canada as a whole.",
+      "passage": 1
+    },
+    {
+      "id": "r6",
+      "n": 6,
+      "type": "gap-fill",
+      "head": "Questions 6–7 · ONE WORD AND/OR A NUMBER",
+      "prompt": "Critics suggest that people should plant ______ instead of keeping new hives.",
+      "answer": [
+        "flowers"
+      ],
+      "explain": "Paragraph C, last sentence.",
+      "passage": 1
+    },
+    {
+      "id": "r7",
+      "n": 7,
+      "type": "gap-fill",
+      "prompt": "A well-kept colony may produce as much as ______ kilograms of honey per year.",
+      "answer": [
+        "25",
+        "twenty-five",
+        "twentyfive"
+      ],
+      "explain": "Paragraph D: 'up to 25 kilograms'. 'As much as' is a paraphrase of 'up to'.",
+      "passage": 1
+    },
+    {
+      "id": "r8",
+      "n": 8,
+      "type": "mcq-single",
+      "head": "Questions 8–9 · Which paragraph",
+      "prompt": "Which paragraph describes rules introduced to monitor disease?",
+      "options": [
+        "Paragraph A",
+        "Paragraph B",
+        "Paragraph C",
+        "Paragraph D"
+      ],
+      "answer": 3,
+      "explain": "Paragraph D: hives must be registered 'so that outbreaks of disease can be tracked'.",
+      "passage": 1
+    },
+    {
+      "id": "r9",
+      "n": 9,
+      "type": "mcq-single",
+      "prompt": "Which paragraph compares the variety of food for bees in cities and on farms?",
+      "options": [
+        "Paragraph A",
+        "Paragraph B",
+        "Paragraph C",
+        "Paragraph D"
+      ],
+      "answer": 1,
+      "explain": "Paragraph B contrasts many city flowers with a single farm crop.",
+      "passage": 1
+    },
+    {
+      "id": "r10",
+      "n": 10,
+      "type": "mcq-single",
+      "head": "Questions 10–13 · Choose A, B, C or D",
+      "prompt": "According to paragraph A, during sleep the brain",
+      "options": [
+        "rests completely",
+        "processes the day's information",
+        "forgets unimportant facts",
+        "prepares the body for exercise"
+      ],
+      "answer": 1,
+      "explain": "'It actively replays and organises information gathered during the day.' Option A is the opposite.",
+      "passage": 2
+    },
+    {
+      "id": "r11",
+      "n": 11,
+      "type": "mcq-single",
+      "prompt": "In the experiment, the group that stayed awake",
+      "options": [
+        "was tested in the morning",
+        "remembered more words",
+        "still did worse after drinking coffee",
+        "learned a different list"
+      ],
+      "answer": 2,
+      "explain": "'The difference remains even when the tired group is given extra coffee.'",
+      "passage": 2
+    },
+    {
+      "id": "r12",
+      "n": 12,
+      "type": "mcq-single",
+      "prompt": "Waking up very early may be harmful because",
+      "options": [
+        "slow-wave sleep happens at the end of the night",
+        "REM periods are longer near the morning",
+        "coffee works less well early in the day",
+        "it makes daytime naps impossible"
+      ],
+      "answer": 1,
+      "explain": "Paragraph C: 'Because REM periods become longer towards morning…'",
+      "passage": 2
+    },
+    {
+      "id": "r13",
+      "n": 13,
+      "type": "mcq-single",
+      "prompt": "The writer advises language learners to",
+      "options": [
+        "study new words in one long session",
+        "avoid naps during the day",
+        "review new words before sleep and again the next day",
+        "sleep for only 20 to 30 minutes"
+      ],
+      "answer": 2,
+      "explain": "The final sentence gives exactly this advice.",
+      "passage": 2
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "id": "ielts-academic/speaking/set-02",
+  "provenance": "original",
+  "skill": "speaking",
+  "name": "Work & a useful skill",
+  "parts": [
+    {
+      "n": 1,
+      "kind": "qa",
+      "questions": [
+        "Do you work or are you a student?",
+        "What do you enjoy about your work or studies?",
+        "Do you prefer working in the morning or the evening?",
+        "What job did you want to do when you were a child?"
+      ]
+    },
+    {
+      "n": 2,
+      "kind": "long-turn",
+      "cue": {
+        "topic": "Describe a skill you learned that has been useful to you.",
+        "points": [
+          "what the skill is",
+          "when and how you learned it",
+          "how difficult it was",
+          "and explain why it has been useful."
+        ]
+      }
+    },
+    {
+      "n": 3,
+      "kind": "discussion",
+      "questions": [
+        "Which skills will be most important for young people in the future?",
+        "Is it better to learn skills at school or at work?",
+        "Do you think technology makes people less skilled at some things?"
+      ]
+    }
+  ]
+}

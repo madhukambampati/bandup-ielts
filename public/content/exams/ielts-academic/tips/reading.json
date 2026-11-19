@@ -1,0 +1,25 @@
+{
+  "skill": "reading",
+  "examId": "ielts-academic",
+  "general": [
+    {
+      "body": "Do not read every word first. Skim each paragraph for its main idea in 10 seconds."
+    },
+    {
+      "body": "Answers to completion and TFNG questions usually come in text order."
+    },
+    {
+      "body": "NOT GIVEN means the text says nothing about it. FALSE means the text says the opposite."
+    },
+    {
+      "body": "Never spend more than 20 minutes on one passage."
+    }
+  ],
+  "byLevel": {
+    "beginner": [],
+    "intermediate": [],
+    "advanced": [],
+    "professional": []
+  },
+  "mistakes": []
+}

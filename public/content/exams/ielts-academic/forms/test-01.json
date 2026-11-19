@@ -1,0 +1,26 @@
+{
+  "id": "ielts-academic/forms/test-01",
+  "provenance": "original",
+  "name": "Practice Test 1",
+  "sections": [
+    {
+      "skill": "listening",
+      "set": "ielts-academic/listening/set-01"
+    },
+    {
+      "skill": "reading",
+      "set": "ielts-academic/reading/set-01"
+    },
+    {
+      "skill": "writing",
+      "tasks": [
+        "ielts-academic/writing/task1-01",
+        "ielts-academic/writing/task2-01"
+      ]
+    },
+    {
+      "skill": "speaking",
+      "set": "ielts-academic/speaking/set-01"
+    }
+  ]
+}

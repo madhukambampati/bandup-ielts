@@ -1,0 +1,48 @@
+{
+  "id": "ielts-academic/writing/task1-01",
+  "provenance": "original",
+  "skill": "writing",
+  "task": "task1",
+  "title": "Internet access at home",
+  "prompt": "The chart below shows the percentage of households with internet access in Canada, Brazil and India between 2005 and 2020.",
+  "instruction": "Summarise the information by selecting and reporting the main features, and make comparisons where relevant. Write at least 150 words.",
+  "chart": {
+    "type": "grouped-bar",
+    "unit": "%",
+    "years": [
+      2005,
+      2010,
+      2015,
+      2020
+    ],
+    "series": [
+      {
+        "name": "Canada",
+        "values": [
+          64,
+          78,
+          87,
+          94
+        ]
+      },
+      {
+        "name": "Brazil",
+        "values": [
+          21,
+          38,
+          58,
+          81
+        ]
+      },
+      {
+        "name": "India",
+        "values": [
+          3,
+          8,
+          22,
+          48
+        ]
+      }
+    ]
+  }
+}

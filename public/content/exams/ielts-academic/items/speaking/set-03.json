@@ -1,0 +1,40 @@
+{
+  "id": "ielts-academic/speaking/set-03",
+  "provenance": "original",
+  "skill": "speaking",
+  "name": "Food & a memorable meal",
+  "parts": [
+    {
+      "n": 1,
+      "kind": "qa",
+      "questions": [
+        "What kind of food do you enjoy?",
+        "Do you like cooking? Why or why not?",
+        "Has your diet changed since you were a child?",
+        "Do people in your country usually eat together as a family?"
+      ]
+    },
+    {
+      "n": 2,
+      "kind": "long-turn",
+      "cue": {
+        "topic": "Describe a meal that you remember well.",
+        "points": [
+          "where you had it",
+          "who you were with",
+          "what you ate",
+          "and explain why you remember it."
+        ]
+      }
+    },
+    {
+      "n": 3,
+      "kind": "discussion",
+      "questions": [
+        "Why do traditional meals matter to families and cultures?",
+        "How have fast food restaurants changed eating habits?",
+        "Should schools teach children how to cook?"
+      ]
+    }
+  ]
+}

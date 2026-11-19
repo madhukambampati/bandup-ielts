@@ -54,17 +54,23 @@ export function snap(value, scale) {
 /* ---------------- display ---------------- */
 
 /**
+ * The bare number, written the way that exam writes it: half-step scales always
+ * show one decimal ("6.5", "7.0"), integer and point scales never do.
+ */
+export function text(value, scale) {
+  if (value === null || value === undefined || value === "") return "–";
+  const n = Number(value);
+  if (!Number.isFinite(n)) return "–";
+  return scale.kind === "half-step" ? n.toFixed(1) : String(Math.round(n));
+}
+
+/**
  * Render a value the way that exam's score report does.
  * `scale.format` is a template containing {v}, e.g. "Band {v}" or "Level {v}".
  */
 export function format(value, scale) {
-  if (value === null || value === undefined || value === "") return "–";
-  const n = Number(value);
-  if (!Number.isFinite(n)) return "–";
-  let text;
-  if (scale.kind === "half-step") text = n.toFixed(1);
-  else text = String(Math.round(n));
-  return (scale.format || "{v}").replace("{v}", text);
+  const t = text(value, scale);
+  return t === "–" ? t : (scale.format || "{v}").replace("{v}", t);
 }
 
 /** Position on the scale as 0–1, for progress bars that work on any scale. */
