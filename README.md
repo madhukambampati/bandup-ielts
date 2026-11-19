@@ -41,12 +41,17 @@ Practice content lives in `public/content/` and is read by **both** the browser 
 ## Deploy to Vercel (about 10 minutes)
 
 1. **Get an API key** at https://console.anthropic.com → API Keys. Add a little credit and set a monthly spend limit (Settings → Limits) so costs can never surprise you.
-2. **Put the code on GitHub**: create a new repository, then drag all the files from this folder into it (Add file → Upload files) and commit.
-3. **Import into Vercel**: https://vercel.com/new → pick the repository → Framework preset **Other** → leave build settings empty.
-4. **Add the key**: before clicking Deploy, open *Environment Variables* and add `ANTHROPIC_API_KEY`. Then Deploy.
-5. **Make the limit reliable** (recommended): in the Vercel project, Storage → Create → Upstash Redis (free tier) → connect it. Vercel adds `UPSTASH_REDIS_REST_URL` and `UPSTASH_REDIS_REST_TOKEN` for you (if it names them `KV_REST_API_URL` / `KV_REST_API_TOKEN`, add two more variables with the names above and the same values). Redeploy.
+2. **Import the repository**: go to https://vercel.com/new, pick `bandup-ielts`, Framework preset **Other**, and leave the build settings empty — there is no build step.
+3. **Add the key before the first deploy**: open *Environment Variables* and add `ANTHROPIC_API_KEY`. Without it the site loads and Listening and Reading work, but Writing, Speaking, the study plan and the tutor all answer "The site owner has not added an AI key yet."
+4. **Make the daily limit reliable** (recommended): in the Vercel project, Storage → Create → Upstash Redis (free tier) → connect it. Vercel adds `UPSTASH_REDIS_REST_URL` and `UPSTASH_REDIS_REST_TOKEN` for you (if it names them `KV_REST_API_URL` / `KV_REST_API_TOKEN`, add two more variables with the names above and the same values). Redeploy.
 
-Alternative to steps 2–4: install Node, then in this folder run `npx vercel`, log in, and `npx vercel env add ANTHROPIC_API_KEY` followed by `npx vercel --prod`.
+Once the repository is imported, Vercel deploys `main` as production and gives **every other branch its own preview URL automatically** on each push — which is how to try a work-in-progress branch without touching the live site.
+
+Alternative, from a machine with Node installed: `npx vercel` in this folder, then `npx vercel env add ANTHROPIC_API_KEY` and `npx vercel --prod`. Note that a CLI deploy creates a project that is **not** linked to GitHub, so later pushes will not deploy themselves.
+
+### A note on the function bundle
+
+`api/ai.js` reads practice content from `public/content/` at runtime. Vercel only traces static imports, so `vercel.json` declares `includeFiles: "public/content/**"` to ship those files with the function. If that line is removed, Listening and Reading keep working while every AI feature fails — `npm test` checks it is still there.
 
 ## Run it locally
 
