@@ -4,7 +4,7 @@
 // practice content and never sees a prompt: the server loads the item from
 // public/content/ and builds the examiner prompt here. That is what stops the
 // public site being used as a free general-purpose AI proxy.
-import { registry } from "./_packs.js";
+import { registry, assertContentDeployed } from "./_packs.js";
 import { JSON_SYSTEM } from "./_personas.js";
 import { writingPrompt, speakingPrompt, planPrompt, tutorSystem, wordCount } from "./_prompt.js";
 
@@ -152,6 +152,8 @@ export default async function handler(req, res) {
   const body = typeof req.body === "string" ? (() => { try { return JSON.parse(req.body); } catch { return {}; } })() : req.body || {};
   const fn = MODES.get(body.mode);
   if (!fn) return res.status(400).json({ error: "Unknown request." });
+  try { assertContentDeployed(); }
+  catch (e) { console.error(e); return res.status(500).json({ error: e.msg }); }
   const ip = String(req.headers["x-forwarded-for"] || "").split(",")[0].trim() || "anon";
   if (await overLimit(ip)) return res.status(429).json({ error: `You have used today's ${DAILY_LIMIT} free AI checks. Come back tomorrow. Listening and Reading are unlimited.` });
   try {

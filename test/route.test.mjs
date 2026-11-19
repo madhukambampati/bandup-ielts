@@ -3,6 +3,7 @@
 import { test, beforeEach, afterEach } from "node:test";
 import assert from "node:assert/strict";
 import handler from "../api/ai.js";
+import { readFileSync } from "node:fs";
 
 const realFetch = global.fetch;
 let sent = [];
@@ -171,4 +172,47 @@ test("a non-JSON model reply is handled instead of crashing", async () => {
   const out = await post({ mode: "writing", examId: "ielts-academic", itemId: "ielts-academic/writing/task2-01", text: "word ".repeat(80) });
   assert.equal(out.code, 502);
   assert.match(out.body.error, /could not finish/);
+});
+
+/* ---------- deployment ---------- */
+test("vercel.json bundles the practice content with the function", () => {
+  // Vercel traces static imports but not files read at runtime by a computed
+  // path. Without this, every AI call fails on the deployed site while
+  // Listening and Reading keep working, which hides the breakage.
+  const v = JSON.parse(readFileSync(new URL("../vercel.json", import.meta.url), "utf8"));
+  const fn = v.functions["api/ai.js"];
+  assert.ok(fn, "api/ai.js must be configured");
+  assert.ok(fn.includeFiles, "api/ai.js must declare includeFiles for public/content");
+  assert.match(fn.includeFiles, /public\/content/);
+});
+
+test("content missing from the bundle is reported as a misconfiguration, not bad input", async () => {
+  const { assertContentDeployed } = await import("../api/_packs.js");
+  assert.doesNotThrow(() => assertContentDeployed(), "the real tree is present, so this passes quietly");
+
+  // Run the route from a copy of the bundle Vercel would trace on its own:
+  // every statically imported .js file, and no public/content.
+  const { mkdtempSync, mkdirSync, copyFileSync, readdirSync: rd } = await import("node:fs");
+  const { tmpdir } = await import("node:os");
+  const { join } = await import("node:path");
+  const root = new URL("../", import.meta.url).pathname;
+  const dir = mkdtempSync(join(tmpdir(), "bandup-bundle-"));
+  for (const sub of ["api", "public/engine", "public/engine/itemtypes"]) {
+    mkdirSync(join(dir, sub), { recursive: true });
+    for (const f of rd(join(root, sub))) {
+      if (f.endsWith(".js")) copyFileSync(join(root, sub, f), join(dir, sub, f));
+    }
+  }
+  copyFileSync(join(root, "package.json"), join(dir, "package.json"));
+
+  const mod = await import(join(dir, "api", "ai.js"));
+  process.env.ANTHROPIC_API_KEY = "test-key-not-real";
+  stubClaude("{}");
+  const out = await mod.default(
+    { method: "POST", headers: {}, body: { mode: "writing", examId: "ielts-academic", itemId: "ielts-academic/writing/task2-01", text: "word ".repeat(80) } },
+    res()
+  );
+  assert.equal(out.code, 500, "a broken deployment must not look like bad input");
+  assert.match(out.body.error, /not deployed with the API/);
+  assert.equal(sent.filter((s) => s.url.includes("anthropic")).length, 0, "and must not spend money trying");
 });
