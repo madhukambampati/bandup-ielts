@@ -1,0 +1,8 @@
+{
+  "name": "bandup-ielts",
+  "private": true,
+  "type": "module",
+  "version": "1.0.0",
+  "description": "Free IELTS practice website with AI band scores",
+  "engines": { "node": ">=18" }
+}
